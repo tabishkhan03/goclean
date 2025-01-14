@@ -1,0 +1,134 @@
+
+
+
+                                         <%- include('../layout/header.ejs') %>
+                                         <body id="kt_app_body" data-kt-app-header-fixed="true" data-kt-app-header-fixed-mobile="true" data-kt-app-sidebar-enabled="true" data-kt-app-sidebar-fixed="true" data-kt-app-sidebar-hoverable="true" data-kt-app-sidebar-push-toolbar="true" data-kt-app-sidebar-push-footer="true" data-kt-app-toolbar-enabled="true" data-kt-app-aside-enabled="true" data-kt-app-aside-fixed="true" data-kt-app-aside-push-toolbar="true" data-kt-app-aside-push-footer="true" class="app-default">
+                                             <div class="d-flex flex-column flex-root app-root" id="kt_app_root">
+                                                 <div class="app-page flex-column flex-column-fluid" id="kt_app_page">
+                                                     <%- include('../layout/navbar.ejs') %>
+                                                     <div class="app-wrapper flex-column flex-row-fluid" id="kt_app_wrapper">
+                                                         <%- include('../layout/sidebar.ejs') %>
+                                                         <div class="app-main flex-column flex-row-fluid" id="kt_app_main">
+                                                             <div class="d-flex flex-column flex-column-fluid">
+                                                                 <div id="kt_app_toolbar" class="app-toolbar pt-5">
+                                                                     <div id="kt_app_toolbar_container" class="app-container container-fluid d-flex align-items-stretch">
+                                                                         <div class="app-toolbar-wrapper d-flex flex-stack flex-wrap gap-4 w-100">
+                                                                             <div class="page-title d-flex flex-column gap-1 me-3 mb-2">
+                                                                                 <ul class="breadcrumb breadcrumb-separatorless fw-semibold mb-6">
+                                                                                     <li class="breadcrumb-item text-gray-700 fw-bold lh-1">
+                                                                                         <a href="/dashboard" class="text-gray-500">
+                                                                                             <i class="fa-solid fa-house fs-1 text-gray-900"></i>
+                                                                                         </a>
+                                                                                     </li>
+                                                                                     <li class="breadcrumb-item">
+                                                                                         <i class="ki-duotone ki-right fs-4 text-gray-700 mx-n1"></i>
+                                                                                     </li>
+                                                                                     <li class="breadcrumb-item text-gray-900 fw-bold lh-1">Banner</li>
+                                                                                     <li class="breadcrumb-item">
+                                                                                         <i class="ki-duotone ki-right fs-4 text-gray-700 mx-n1"></i>
+                                                                                     </li>
+                                                                                     <li class="breadcrumb-item text-gray-500 lh-1">View banner</li>
+                                                                                 </ul>
+                                                                             </div>
+                                                                         </div>
+                                                                     </div>
+                                                                 </div>
+                                                                 <div id="kt_app_content" class="app-content flex-column-fluid">
+                                                                     <div id="kt_app_content_container" class="app-container container-fluid">
+                                                                         <div class="row">
+                                                                             <div class="card card-flush mb-5 mb-xl-10">
+                                                                                 <div class="card-header pt-5 border-bottom-0 cursor-pointer align-items-center py-5 gap-2 gap-md-5" role="button" data-bs-toggle="collapse" data-bs-target="#kt_account_profile_details" aria-expanded="true" aria-controls="kt_account_profile_details">
+                                                                                     <div class="card-title m-0">
+                                                                                         <div class="d-flex align-items-center position-relative my-1">
+                                                                                             <i class="ki-duotone ki-magnifier fs-3 position-absolute ms-4"><span class="path1"></span><span class="path2"></span></i>                
+                                                                                             <input type="text" data-kt-list-table="search" class="form-control form-control-solid w-250px ps-12" placeholder="Search Banner">
+                                                                                         </div>
+                                                                                     </div>
+                                                                                     <div class="card-tool d-flex gap-10 align-items-center">
+                                                                                         <div class="select-center w-300px">
+                                                                                             <select class="form-select form-select-solid" aria-label="Select example" name="serviceId" id="filterBanner" data-control="select2" data-hide-search="true" data-dropdown-parent="#kt_header_search" data-placeholder="Select Service...">
+                                                                                                 <option value="">Select Service...</option>
+                                                                                                 <% if(service.length > 0) { %>
+                                                                                                     <option value="all">All</option>
+                                                                                                     <% service.forEach(s => { %>
+                                                                                                         <option value="<%= s._id %>"><%= s.name %></option>
+                                                                                                     <% }); %>
+                                                                                                 <% } %>
+                                                                                             </select>
+                                                                                         </div>
+                                                                                         <a href="/add-banner" class="btn btn-sm btn-primary bg-primary d-flex align-items-center lh-1">
+                                                                                             <i class="ki-duotone ki-setting-4 fs-1 text-white-900">
+                                                                                                 <span class="path1"></span>
+                                                                                                 <span class="path2"></span>
+                                                                                                 <span class="path3"></span>
+                                                                                                 <span class="path4"></span>
+                                                                                             </i>
+                                                                                             <span class="ms-2">Add Banner</span>
+                                                                                         </a>
+                                                                                     </div>
+                                                                                 </div>
+                                                                                 <div class="card-body border-top-0 pt-5 p-9">
+                                                                                     <div class="table-responsive">   
+                                                                                         <table class="table table-hover table-rounded table-row-bordered border gy-7 gs-7 mb-10" id="bannerlist-table">
+                                                                                             <thead>
+                                                                                                 <tr class="text-start text-gray-400 fw-bold fs-7 text-uppercase gs-0">
+                                                                                                     <th>Sr No</th>
+                                                                                                     <th>Name</th>
+                                                                                                     <th>Service</th>
+                                                                                                     <th>is Enable</th>
+                                                                                                     <th>Action</th>
+                                                                                                 </tr>
+                                                                                             </thead>
+                                                                                             <tbody class="fw-semibold text-gray-600">
+                                                                                                <% let cnt = 1; %>
+                                                                                                <% banners.forEach(function(banner) { %>
+                                                                                                    <tr>
+                                                                                                        <td class="ps-10 pt-5"><%= cnt %></td>
+                                                                                                        <td>
+                                                                                                            <div class="d-flex">
+                                                                                                                <div class="symbol symbol-50px">
+                                                                                                                    <span class="symbol-label symbol symbol-50px" style="background-image:url('/images/<%= banner.image %>');"></span>
+                                                                                                                </div>
+                                                                                                                <h2 class="text-gray-800 ps-5 pt-5 fs-5"><%= banner.title %></h2>
+                                                                                                            </div>
+                                                                                                        </td>
+                                                                                                        <td>
+                                                                                                            <% if (banner.serviceId && banner.serviceId.name) { %>
+                                                                                                                <span class="badge badge-success"><%= banner.serviceId.name %></span>
+                                                                                                            <% } else { %>
+                                                                                                                <span class="badge badge-danger">Service not found</span>
+                                                                                                            <% } %>
+                                                                                                        </td>
+                                                                                                        <td>
+                                                                                                            <% if (banner.isEnabled) { %>
+                                                                                                                <span class="badge badge-success">Enabled</span>
+                                                                                                            <% } else { %>
+                                                                                                                <span class="badge badge-danger">Disabled</span>
+                                                                                                            <% } %>
+                                                                                                        </td>
+                                                                                                        <td>
+                                                                                                            <button class="btn btn-sm btn-primary">Edit</button>
+                                                                                                            <button class="btn btn-sm btn-danger">Delete</button>
+                                                                                                        </td>
+                                                                                                    </tr>
+                                                                                                    <% cnt++; %>
+                                                                                                <% }); %>
+                                                                                            </tbody>
+                                                                                            
+                                                                                         </table>
+                                                                                     </div>
+                                                                                 </div>
+                                                                             </div>
+                                                                         </div>
+                                                                     </div>
+                                                                 </div>
+                                                             </div>
+                                                             <div id="kt_app_footer" class="app-footer align-items-center justify-content-center justify-content-md-between flex-column flex-md-row py-3">
+                                                             </div>
+                                                         </div>
+                                                     </div>
+                                                 </div>
+                                             </div>
+                                         <script src="/assets/js/statusEnable.js"></script>
+                                         <%- include('../layout/footer.ejs') %>
+                                         
